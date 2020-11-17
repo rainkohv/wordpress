@@ -1,0 +1,2 @@
+[17-Nov-2020 07:51:36 UTC] PHP Warning:  require_once(/wp-load.php): failed to open stream: No such file or directory in /home/rainkohviktkhk/public_html/wordpress/wp-content/plugins/gitium/gitium-webhook.php on line 23
+[17-Nov-2020 07:51:36 UTC] PHP Fatal error:  require_once(): Failed opening required '/wp-load.php' (include_path='.:/opt/cpanel/ea-php72/root/usr/share/pear') in /home/rainkohviktkhk/public_html/wordpress/wp-content/plugins/gitium/gitium-webhook.php on line 23
