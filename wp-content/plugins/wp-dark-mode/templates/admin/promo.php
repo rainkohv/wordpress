@@ -6,8 +6,8 @@ $is_pro    = isset( $is_pro_promo ) && $is_pro_promo;
 $data_transient_key = 'wp_dark_mode_promo_data';
 
 $data = [
-	'pro_title'       => 'Upgrade to PRO to access the PRO features',
-	'ultimate_title'  => 'Upgrade to ULTIMATE to access the ULTIMATE features',
+	'pro_title'       => 'Unlock the PRO features',
+	'ultimate_title'  => 'Unlock all the features',
 	'discount_text'   => '50% OFF',
 	'pro_text'        => 'GET PRO',
 	'ultimate_text'   => 'GET ULTIMATE',
@@ -15,53 +15,56 @@ $data = [
 	'is_black_friday' => 'no',
 ];
 
+$countdown_time = get_transient( 'wp_darkmode_promo_time' );
 
-if ( ! $data = get_transient( $data_transient_key ) ) {
-	$url = 'https://wppool.dev/wp-dark-mode-promo-data.php';
+if ( !$countdown_time ) {
 
-	$url = add_query_arg( [
-		'version' => wp_dark_mode()->version,
-		'date'    => date( 'Y-m-d-H-i-s' ),
-	], $url );
+	$date = date( 'Y-m-d-H-i', strtotime( '+ 14 hours' ) );
 
-	$res = wp_remote_get( $url );
+	$date_parts = explode( '-', $date );
 
-	if ( ! is_wp_error( $res ) ) {
-		$json = wp_remote_retrieve_body( $res );
-		$data = (array) json_decode( $json );
+	$countdown_time = [
+		'year'   => $date_parts[0],
+		'month'  => $date_parts[1],
+		'day'    => $date_parts[2],
+		'hour'   => $date_parts[3],
+		'minute' => $date_parts[4],
+	];
 
-		set_transient( $data_transient_key, $data, 5 * MINUTE_IN_SECONDS );
-	}
+	set_transient( 'wp_darkmode_promo_time',$countdown_time, 14 * HOUR_IN_SECONDS );
+
 }
 
-
-
+//if ( ! $data = get_transient( $data_transient_key ) ) {
+//	$url = 'https://wppool.dev/wp-dark-mode-promo-data.php';
+//
+//	$url = add_query_arg( [
+//		'version' => wp_dark_mode()->version,
+//		'date'    => date( 'Y-m-d-H-i-s' ),
+//	], $url );
+//
+//	$res = wp_remote_get( $url );
+//
+//	if ( ! is_wp_error( $res ) ) {
+//		$json = wp_remote_retrieve_body( $res );
+//		$data = (array) json_decode( $json );
+//
+//		set_transient( $data_transient_key, $data, DAY_IN_SECONDS );
+//	}
+//}
 
 $title = $is_pro ? $data['pro_title'] : $data['ultimate_title'];
 
 ?>
 
 <div class="wp-dark-mode-promo <?php echo $is_hidden ? 'hidden' : ''; ?>">
-    <div class="wp-dark-mode-promo-inner <?php echo $data['is_black_friday'] == 'yes' ? 'black-friday' : ''; ?>">
+    <div class="wp-dark-mode-promo-inner">
 
 		<?php if ( $is_hidden ) { ?>
             <span class="close-promo">&times;</span>
 		<?php } ?>
 
         <img src="<?php echo wp_dark_mode()->plugin_url( 'assets/images/gift-box.svg' ) ?>" class="promo-img">
-
-		<?php if ( $data['is_black_friday'] == 'yes' ) { ?>
-            <div class="black-friday-wrap">
-                <h3>Biggest sale of the year.</h3>
-
-                <div class="ribbon">
-                    <div class="ribbon-stitches-top"></div>
-                    <strong class="ribbon-content"><h1>BLACK FRIDAY</h1></strong>
-                    <div class="ribbon-stitches-bottom"></div>
-                </div>
-
-            </div>
-		<?php } ?>
 
 		<?php
 
@@ -74,10 +77,10 @@ $title = $is_pro ? $data['pro_title'] : $data['ultimate_title'];
 		}
 
 
-		if ( ! empty( $data['countdown_time'] ) ) {
-			if ( $data['countdown_time'] > date( 'Y-m-d-H-i' ) ) {
+		if ( ! empty( $countdown_time ) ) {
+			//if ( $data['countdown_time'] > date( 'Y-m-d-H-i' ) ) {
 				echo '<div class="simple_timer"></div>';
-			}
+			//}
 		}
 
 		?>
@@ -138,18 +141,18 @@ $title = $is_pro ? $data['pro_title'] : $data['ultimate_title'];
                 });
 
 				<?php
-				if ( ! empty( $date = $data['countdown_time'] ) ) {
+				if ( ! empty( $countdown_time ) ) {
 
-				$date_parts = explode( '-', $date );
-
-				$countdown_time = [
-					'year'   => $date_parts[0],
-					'month'  => $date_parts[1],
-					'day'    => $date_parts[2],
-					'hour'   => $date_parts[3],
-					'minute' => $date_parts[4],
-					'second' => $date_parts[5],
-				];
+//				$date_parts = explode( '-', $date );
+//
+//				$countdown_time = [
+//					'year'   => $date_parts[0],
+//					'month'  => $date_parts[1],
+//					'day'    => $date_parts[2],
+//					'hour'   => $date_parts[3],
+//					'minute' => $date_parts[4],
+//					'second' => $date_parts[5],
+//				];
 
 				?>
 
@@ -160,7 +163,7 @@ $title = $is_pro ? $data['pro_title'] : $data['ultimate_title'];
                         day: <?php echo $countdown_time['day']; ?>,
                         hour: <?php echo $countdown_time['hour']; ?>,
                         minute: <?php echo $countdown_time['minute']; ?>,
-                        second: <?php echo $countdown_time['second']; ?>,
+//                        second: <?php // echo $countdown_time['second']; ?>,
                     });
                 }
 				<?php } ?>

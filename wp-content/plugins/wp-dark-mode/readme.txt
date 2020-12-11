@@ -4,7 +4,7 @@ Tags: dark, dark mode, night mode, gutenberg blocks, dark theme
 Requires at least: 5.0
 Tested up to: 5.5
 Requires PHP: 5.6
-Stable tag: 1.3.0
+Stable tag: 1.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,9 +25,9 @@ Works across all operating systems including Android, iOS, macOS. No settings ar
 Just activate dark mode on your device, and browse the website to experience a magically transformed dark mode of your website.
 WP Dark Mode supports all major operating systems including iOS, Android, macOS, or Windows 10.
 
-=== Listen From Our Happy Customer ===
-Listen from one of our happy customer - Ali Rashidy how he felt after using WP Dark Mode.
-[youtube https://youtu.be/Z2miWQCHGr4]
+=== Honest Review of WP Dark Mode - You're missing out ===
+
+[youtube https://www.youtube.com/watch?v=6OB34ikfhh8&]
 
 === WP Dark Mode Features ===
 
@@ -69,6 +69,7 @@ Listen from one of our happy customer - Ali Rashidy how he felt after using WP D
 1. **Custom CSS** – You can use custom CSS only for dark mode.
 1. **Custom Switch Icon** – You can customize the dark mode switch icon in the light/ dark mode.
 1. **Dark mode Switch in Menu** – You can display the dark mode switch as a menu item in any menu on your website.
+1. **Remember Darkmode** -  If remember dark mode is on,  browser remembers the user's selected mode and shows it to them when they re-open the browser
 
 > 🚀  [Get The Ultimate Version](https://wppool.dev/wp-dark-mode/) | 👩🏼‍💻 [Get Support](https://wppool.dev/wp-dark-mode/)
 
@@ -144,6 +145,11 @@ No. WP Dark Mode is a very user-friendly and simple plugin. Just download and us
 10. Dark mode switch elementor widget
 
 == Changelog ==
+
+= 1.3.1 =
+* New: Added NextGen Gallery Plugin Compatibility
+* Update: Improved Gutenberg Editor Color Palettes
+* Update: Improved Background Image Replacement
 
 = 1.3.0 =
 * New: Added Revolution Slider Compatibility

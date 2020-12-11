@@ -26,6 +26,8 @@ if ( ! class_exists( 'WP_Dark_Mode_Hooks' ) ) {
 			}
 
 			add_action( 'wsa_form_bottom_wp_dark_mode_advanced', [ $this, 'pro_promo' ] );
+			add_action( 'wsa_form_bottom_wp_dark_mode_advanced', [ $this, 'ultimate_promo' ] );
+
 			add_action( 'wsa_form_bottom_wp_dark_mode_display', [ $this, 'pro_promo' ] );
 			add_action( 'wsa_form_bottom_wp_dark_mode_display', [ $this, 'ultimate_promo' ] );
 			add_action( 'wsa_form_bottom_wp_dark_mode_style', [ $this, 'ultimate_promo' ] );
@@ -44,35 +46,48 @@ if ( ! class_exists( 'WP_Dark_Mode_Hooks' ) ) {
 
 			add_filter( 'wp_dark_mode/excludes', [ $this, 'excludes' ] );
 
-			add_action( 'admin_init', [ $this, 'display_notice' ] );
+			//add_action( 'admin_init', [ $this, 'display_notice' ] );
 
 			/** hide black friday notice */
-			add_action( 'wp_ajax_hide_black_friday_notice', [ $this, 'hide_black_friday_notice' ] );
+			//add_action( 'wp_ajax_hide_black_friday_notice', [ $this, 'hide_black_friday_notice' ] );
+
+            add_action('admin_footer', [$this, 'display_promo']);
 
 		}
 
-		public function hide_black_friday_notice() {
-			update_option( 'wp_dark_mode_hide_black_friday_notice', true );
-			update_option( sanitize_key( 'wp_dark_mode_notices' ), [] );
-			die();
-		}
+		public function display_promo(){
 
-		public function display_notice() {
-
-			if ( get_option( 'wp_dark_mode_hide_black_friday_notice' ) ) {
-				//return;
-			}
-
-			/** display the black-friday notice if the pro version is not activated */
 			if ( wp_dark_mode()->is_pro_active() || wp_dark_mode()->is_ultimate_active() ) {
 				return;
 			}
 
-			$message = '<h4>Enjoy upto 75% OFF on WP Dark Mode. Get Your Black Friday <a href="https://wppool.dev/wp-dark-mode" target="_blank">Deals Now</a></h4>';
+		    if(wp_dark_mode_is_gutenberg_page()){
+			    wp_dark_mode()->get_template( 'admin/promo', ['is_hidden' => true] );
+		    }
+        }
 
-			wp_dark_mode()->add_notice( 'info is-dismissible', $message );
+//		public function hide_black_friday_notice() {
+//			update_option( 'wp_dark_mode_hide_black_friday_notice', true );
+//			update_option( sanitize_key( 'wp_dark_mode_notices' ), [] );
+//			die();
+//		}
 
-		}
+//		public function display_notice() {
+//
+//			if ( get_option( 'wp_dark_mode_hide_black_friday_notice' ) ) {
+//				return;
+//			}
+//
+//			/** display the black-friday notice if the pro version is not activated */
+//			if ( wp_dark_mode()->is_pro_active() || wp_dark_mode()->is_ultimate_active() ) {
+//				return;
+//			}
+//
+//			$message = '<h4>Enjoy upto 75% OFF on WP Dark Mode. Get Your Black Friday <a href="https://wppool.dev/wp-dark-mode" target="_blank">Deals Now</a></h4>';
+//
+//			wp_dark_mode()->add_notice( 'info is-dismissible', $message );
+//
+//		}
 
 		/**
 		 * Exclude elements
@@ -83,6 +98,7 @@ if ( ! class_exists( 'WP_Dark_Mode_Hooks' ) ) {
 		 */
 		public function excludes( $excludes ) {
 
+		    /** exclude rev slider */
 		    if(class_exists('RevSliderFront')){
 		        $excludes .= ', rs-fullwidth-wrap';
             }
@@ -224,7 +240,7 @@ if ( ! class_exists( 'WP_Dark_Mode_Hooks' ) ) {
 
 			$args = [];
 
-			if ( ! empty( $section ) && in_array( $section['id'], [ 'wp_dark_mode_display', 'wp_dark_mode_style' ] ) ) {
+			if ( ! empty( $section ) && in_array( $section['id'], [ 'wp_dark_mode_advanced', 'wp_dark_mode_display', 'wp_dark_mode_style' ] ) ) {
 				$args['is_hidden'] = true;
 			}
 
@@ -340,7 +356,7 @@ if ( ! class_exists( 'WP_Dark_Mode_Hooks' ) ) {
                             border-color: var(--wp-dark-mode-border) !important;
                         }
                         
-                       * {
+                       *:not(.wp-dark-mode-ignore) {
                           background: transparent !important;
                         }
                         
@@ -377,29 +393,34 @@ if ( ! class_exists( 'WP_Dark_Mode_Hooks' ) ) {
                     window.addEventListener("storage", sessionStorage_transfer, false);
                 } else {
                     window.attachEvent("onstorage", sessionStorage_transfer);
-                };
-
+                }
 
                 // Ask other tabs for session storage (this is ONLY to trigger event)
                 if (!sessionStorage.length) {
                     localStorage.setItem('getSessionStorage', 'foobar');
                     localStorage.removeItem('getSessionStorage', 'foobar');
-                };
-
-
+                }
 
 				<?php
 
-				if(is_admin()){ ?>
-                var is_saved = sessionStorage.getItem('wp_dark_mode_admin');
-                var default_mode = false;
+				$js = '';
+				$default_mode ='on' == wp_dark_mode_get_settings( 'wp_dark_mode_general', 'default_mode', 'off' ) ? 1 : 0;
 
-				<?php }else{ ?>
-                var is_saved = sessionStorage.getItem('wp_dark_mode_frontend');
+				if ( is_admin() ) {
+					$js .= "var is_saved = sessionStorage.getItem('wp_dark_mode_admin'); var default_mode = false;";
+				} else {
+					$js .= "var is_saved = sessionStorage.getItem('wp_dark_mode_frontend'); var default_mode = $default_mode;";
 
-                var default_mode = <?php echo 'on' == wp_dark_mode_get_settings( 'wp_dark_mode_general', 'default_mode', 'off' ) ? 1
-					: 0; ?>;
-				<?php }
+					if(wp_dark_mode()->is_ultimate_active()){
+					    $remember_darkmode = 'on' == wp_dark_mode_get_settings( 'wp_dark_mode_advanced', 'remember_darkmode', 'off' ) ? true : false;
+					    if($remember_darkmode){
+					        $js .= "is_saved = localStorage.getItem('wp_dark_mode_active');console.log(is_saved);";
+                        }
+                    }
+
+				}
+
+				echo $js;
 
 				?>
 
@@ -409,10 +430,10 @@ if ( ! class_exists( 'WP_Dark_Mode_Hooks' ) ) {
 
 				<?php
 
-				//check os aware mode
+				/**-- check os aware mode --**/
 				if ( 'on' == wp_dark_mode_get_settings( 'wp_dark_mode_general', 'enable_os_mode', 'on' ) ) { ?>
 
-                /** check OS aware mode if dark not mode changed by the switch **/
+                /**-- check OS aware mode if dark mode not changed by the switch --**/
                 if (!is_saved || (is_saved && is_saved != 0)) {
                     var darkMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 

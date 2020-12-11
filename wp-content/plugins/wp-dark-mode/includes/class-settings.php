@@ -116,7 +116,7 @@ if ( ! class_exists( 'WP_Dark_Mode_Settings' ) ) {
 					'default_mode'   => array(
 						'name'    => 'default_mode',
 						'default' => 'off',
-						'label'   => __( 'Default Mode', 'wp-dark-mode' ),
+						'label'   => __( 'Make Dark Mode Default', 'wp-dark-mode' ),
 						'desc'    => __( 'Make the dark mode as the default mode. Visitors will see the dark mode first.', 'wp-dark-mode' ),
 						'type'    => 'switcher',
 					),
@@ -143,6 +143,15 @@ if ( ! class_exists( 'WP_Dark_Mode_Settings' ) ) {
 				) ),
 
 				'wp_dark_mode_advanced' => apply_filters( 'wp_dark_mode/advanced_settings', array(
+
+					'remember_darkmode' => array(
+						'name'    => 'remember_darkmode',
+						'default' => 'off',
+						'label'   => __( 'Remember Dark Mode', 'wp-dark-mode' ),
+						'desc'    => __( 'If remember dark mode is on,  browser remembers the user\'s selected mode and shows it to them when they re-open the browser',
+							'wp-dark-mode' ),
+						'type'    => 'switcher',
+					),
 
 					'specific_category' => array(
 						'name'    => 'specific_category',
@@ -297,14 +306,6 @@ if ( ! class_exists( 'WP_Dark_Mode_Settings' ) ) {
 						'desc'    => __( 'Show the dark mode switcher button above of all the pages.', 'wp-dark-mode' ),
 						'type'    => 'switcher',
 					),
-
-//					'includes'   => array(
-//						'name'    => 'includes',
-//						'default' => '',
-//						'label'   => __( 'Includes Elements', 'wp-dark-mode' ),
-//						'desc'    => __( 'Add comma separated CSS selectors (classes, ids) to to apply dark mode. Only the elements within the selectors applied by dark mode.', 'wp-dark-mode' ),
-//						'type'    => 'textarea',
-//					),
 
 					'excludes'   => array(
 						'name'    => 'excludes',
@@ -516,8 +517,7 @@ if ( ! class_exists( 'WP_Dark_Mode_Settings' ) ) {
 
             <p>🔹️ <strong>Light Mode Image: </strong> The image link shown in the light mode.</p>
             <p>🔹️ <strong>Dark Mode Image: </strong> The image link that will replace the light mode image while in dark mode.</p>
-            <p style="margin: 10px 10px 20px;"><b>NB:</b> - Image settings not works on element background images.</p>
-
+            <br>
             <table class="image-settings-table">
                 <tbody>
                 <tr>

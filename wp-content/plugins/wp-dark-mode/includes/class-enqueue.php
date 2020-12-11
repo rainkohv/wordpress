@@ -78,6 +78,7 @@ if ( ! class_exists( 'WP_Dark_Mode_Enqueue' ) ) {
 				'is_excluded'         => $is_excluded,
 				'enable_frontend'     => wp_dark_mode_enabled(),
 				'enable_os_mode'      => 'on' == wp_dark_mode_get_settings( 'wp_dark_mode_general', 'enable_os_mode', 'on' ),
+				'remember_darkmode'   => 'on' == wp_dark_mode_get_settings( 'wp_dark_mode_advanced', 'remember_darkmode', 'off' ),
 				'is_elementor_editor' => class_exists( '\Elementor\Plugin' ) && Elementor\Plugin::$instance->editor->is_edit_mode(),
 				'is_pro_active'       => wp_dark_mode()->is_pro_active(),
 				'is_ultimate_active'  => wp_dark_mode()->is_ultimate_active(),
@@ -85,6 +86,8 @@ if ( ! class_exists( 'WP_Dark_Mode_Enqueue' ) ) {
 				'default_mode'        => 'on' == wp_dark_mode_get_settings( 'wp_dark_mode_advanced', 'default_mode', 'off' ),
 				'is_block_editor'     => method_exists( $current_screen, 'is_block_editor' ) && $current_screen->is_block_editor(),
 				'pro_version'         => $pro_version,
+
+				'images' => get_option( 'wp_dark_mode_image_settings' ),
 			] );
 		}
 
@@ -95,12 +98,12 @@ if ( ! class_exists( 'WP_Dark_Mode_Enqueue' ) ) {
 		 */
 		public function admin_scripts( $hook ) {
 
+			wp_enqueue_script( 'jquery.syotimer', wp_dark_mode()->plugin_url( 'assets/vendor/jquery.syotimer.min.js' ), [ 'jquery' ],
+				'2.1.2', true );
+
 			if ( 'settings_page_wp-dark-mode-settings' == $hook ) {
 
 				wp_enqueue_style( 'select2', wp_dark_mode()->plugin_url( 'assets/vendor/select2.css' ) );
-
-				wp_enqueue_script( 'jquery.syotimer', wp_dark_mode()->plugin_url( 'assets/vendor/jquery.syotimer.min.js' ), [ 'jquery' ],
-					'2.1.2', true );
 
 				wp_enqueue_script( 'select2', wp_dark_mode()->plugin_url( 'assets/vendor/select2.min.js' ), [ 'jquery' ], false, true );
 			}
