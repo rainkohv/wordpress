@@ -24,7 +24,6 @@ if (!is_plugin_active('Ultimate-Premium-Plugin/usm_premium_icons.php') && $sfsi_
     //     $sfsi_banner_global_http,
     //     $sfsi_banner_global_upgrade
     // );
-
     $sfsi_install_time = strtotime(get_option('sfsi_installDate'));
     $sfsi_max_show_time = $sfsi_install_time + (120 * 60);
     $sfsi_install_day_plus_three_days = $sfsi_install_time + (4320 * 60);
@@ -79,7 +78,7 @@ if (!is_plugin_active('Ultimate-Premium-Plugin/usm_premium_icons.php') && $sfsi_
         if ($sfsi_max_show_time >= strtotime(date('Y-m-d h:i:s')) && (!sfsi_check_not_show_other_plugin_settings_page($gallery_plugins, $optimization_plugins, $sharecount_plugins, $google_analytics, $gdpr_plugins, $woocommerce_plugins, $twitter_plugins))) :
             ?>
             <!---------------New installs discount--------------->
-            <div id="sfsi_firsttime_offer" class="sfsi_new_prmium_follw  sfsi_banner_body">
+            <!-- <div id="sfsi_firsttime_offer" class="sfsi_new_prmium_follw  sfsi_banner_body">
                 <div>
                     <p style="margin-bottom: 12px !important;">You seem to have installed the Ultimate Social media plugin for the first time – Thank you & Welcome!</p>
                     <p style="font-size:18px !important">
@@ -94,7 +93,6 @@ if (!is_plugin_active('Ultimate-Premium-Plugin/usm_premium_icons.php') && $sfsi_
                         <input type="submit" name="dismiss" value="Dismiss" />
 
                     </form>
-
                 </div>
             </div>
             <script>
@@ -115,7 +113,7 @@ if (!is_plugin_active('Ultimate-Premium-Plugin/usm_premium_icons.php') && $sfsi_
                         }
                     }
                 }, 60 * 1000);
-            </script>
+            </script> -->
             <!---------------End New installs discount--------------->
     <?php endif;
         }

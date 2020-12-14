@@ -39,7 +39,7 @@ function sfsi_update_plugin()
         update_option("sfsi_custom_icons", "yes");
     }
     //Install version
-    update_option("sfsi_pluginVersion", "2.61");
+    update_option("sfsi_pluginVersion", "2.62");
 
     if (!get_option('sfsi_serverphpVersionnotification')) {
         add_option("sfsi_serverphpVersionnotification", "yes");
@@ -756,7 +756,12 @@ function sfsi_update_plugin()
     if (get_option('sfsi_showNextBannerDate') == "21 day") {
         update_option('sfsi_showNextBannerDate', '14 day');
     }
-
+    $up_hide_option =array(
+        'sfsi_display_section' => 'true',
+        'sfsi_display_section2' => 'false',
+    );
+    add_option('sfsi_new_intro_banner_hide_option', serialize($up_hide_option));
+    
     add_option('sfsi_cycleDate',  "180 day");
     add_option('sfsi_loyaltyDate',  "180 day");
     if (!get_option('sfsi_fb_count')) {
@@ -1177,6 +1182,13 @@ function sfsi_activate_plugin()
 
     add_option('sfsi_RatingDiv', 'no');
     add_option('sfsi_footer_sec', 'no');
+
+    $up_hide_option =array(
+        'sfsi_display_section' => 'true',
+        'sfsi_display_section2' => 'false',
+    );
+    add_option('sfsi_new_intro_banner_hide_option', serialize($up_hide_option));
+
     update_option('sfsi_activate', 1);
 
     $sfsi_dismiss_sharecount = unserialize(get_option('sfsi_dismiss_sharecount'));
@@ -1462,6 +1474,8 @@ function sfsi_Unistall_plugin()
     delete_option("sfsi_fb_count");
     delete_option("sfsi_banner_popups");
     delete_option("sfsi_dismiss_copy_delete_post");
+
+    delete_option("sfsi_new_intro_banner_hide_option");
 
 }
 /* end function */

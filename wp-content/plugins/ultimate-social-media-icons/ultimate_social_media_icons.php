@@ -6,7 +6,7 @@ Description: Easy to use and 100% FREE social media plugin which adds social med
 
 Author: UltimatelySocial
 Author URI: http://ultimatelysocial.com
-Version: 2.6.1
+Version: 2.6.2
 License: GPLv2 or later
 */
 require_once 'analyst/main.php';
@@ -16,8 +16,6 @@ analyst_init(array(
     'client-secret' => 'ae93c43c738bdf50f10ef9d4c6d811006b468c74',
     'base-dir' => __FILE__
 ));
-
-
 
 
 sfsi_error_reporting();
@@ -90,11 +88,12 @@ register_deactivation_hook(__FILE__, 'sfsi_deactivate_plugin');
 
 register_uninstall_hook(__FILE__, 'sfsi_Unistall_plugin');
 
-if (!get_option('sfsi_pluginVersion') || get_option('sfsi_pluginVersion') < 2.61) {
+if (!get_option('sfsi_pluginVersion') || get_option('sfsi_pluginVersion') < 2.62) {
     add_action("init", "sfsi_update_plugin");
 }
 /* redirect setting page hook */
 add_action('admin_init', 'sfsi_plugin_redirect');
+
 
 function sfsi_plugin_redirect()
 
@@ -2388,7 +2387,7 @@ function sfsi_plugin_redirect()
             }
             // return false;
         }
-
+ 
         function sfsi_count_media_item()
         {
             $query_img_args = array(
@@ -2513,10 +2512,11 @@ function sfsi_plugin_redirect()
             }
         }
         add_action('wp', 'sfsi_cronstarter_activation');
-
+        // var_dump('121212',get_option('_wps18472_now_already', false));
+            // die();
         // Handle install
         add_action('wp_ajax_wpse1_6817_install', function () {
-
+           
             if (get_option('_wps18472_now_already', false)) return;
             else update_option('_wps18472_now_already', true);
 

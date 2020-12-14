@@ -1,13 +1,13 @@
-=== Social Media Share Buttons & Social Sharing Icons ===
+=== Social Media Share Buttons & Pop Up Social Sharing Icons  ===
 Contributors: socialdude, socialtech
-Tags: share, share widget, share icons, share buttons, social media, social, social widget, sharing icons, sharing buttons, social share, sharing, social sharing
+Tags: share, pop up, share icons, share buttons, social media, social, social widget, sharing icons, sharing buttons, social share, sharing, social sharing
 Requires at least: 3.5
-Tested up to: 5.5
-Stable tag: 2.6.1
+Tested up to: 5.6
+Stable tag: 2.6.2
 License: GPLv2 
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Share buttons and share icons for social media sharing 
+Share buttons and pop up share icons for social media sharing 
 
 == Description ==
 
@@ -274,6 +274,11 @@ You cannot use the same plugin twice, however you can install both the USM as we
 
 
 == Changelog ==
+= 2.6.2 =
+* Updated to Wordpress 5.6 compatibility
+* Updated to PHP 8 compatibility
+* Pop up feature added
+
 = 2.6.1 =
 * Updated Instagram icons
 
@@ -957,5 +962,5 @@ You cannot use the same plugin twice, however you can install both the USM as we
 
 == Upgrade Notice ==
 
-= 2.6.1 =
+= 2.6.2 =
 Please upgrade
